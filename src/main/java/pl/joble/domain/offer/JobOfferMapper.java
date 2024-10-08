@@ -2,8 +2,6 @@ package pl.joble.domain.offer;
 
 import pl.joble.domain.offer.dto.JobOfferDto;
 
-import java.util.UUID;
-
 class JobOfferMapper {
     private JobOfferMapper(){}
 

@@ -3,7 +3,6 @@ package pl.joble.domain.offer;
 import lombok.RequiredArgsConstructor;
 import pl.joble.domain.offer.dto.JobOfferDto;
 
-import java.util.UUID;
 
 import static pl.joble.domain.offer.JobOfferMapper.*;
 
