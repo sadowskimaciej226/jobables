@@ -164,32 +164,8 @@ class JobOfferFacadeTest {
         //then
         org.assertj.core.api.Assertions.assertThat(allOffer).hasSize(2);
     }
-    @Test
-    void should_return_empty_optional_if_offerList_is_empty(){
-        //given
 
-        //when
 
-        //then
-
-    }
-
-    @Test
-    void should_return_cache_data_for_1h_after_same_first_request(){
-        //given
-//        JobOfferDto jobOfferDto = JobOfferDto.builder()
-//                .title("title with 10 chars :)")
-//                .description("description")
-//                .salary(10000)
-//                .companyName("Company")
-//                .expirationDate(LocalDateTime.now().plusDays(2))
-//                .build();
-//        JobOfferDto savedJobOffer = jobOfferFacade.saveOffer(jobOfferDto);
-        //when
-
-        //then
-
-    }
 
 
 
