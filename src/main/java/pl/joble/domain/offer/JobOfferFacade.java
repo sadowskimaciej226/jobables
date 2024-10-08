@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import pl.joble.domain.offer.dto.JobOfferDto;
 
 
+import java.util.List;
+
 import static pl.joble.domain.offer.JobOfferMapper.*;
 
 //offers CRUD(rather CR than CRUD) operations with periodically fetching data
@@ -29,4 +31,11 @@ public class JobOfferFacade {
         return mapToDto(foundOffer);
 
     }
+    public List<JobOfferDto> findAllOffer(){
+        List<JobOffer> jobOffers = jobOfferRepository.findAll();
+        return jobOffers.stream()
+                .map(JobOfferMapper::mapToDto)
+                .toList();
+    }
+
 }

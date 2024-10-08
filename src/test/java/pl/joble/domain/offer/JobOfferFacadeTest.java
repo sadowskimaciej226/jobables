@@ -1,9 +1,11 @@
 package pl.joble.domain.offer;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import pl.joble.domain.offer.dto.JobOfferDto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -138,6 +140,39 @@ class JobOfferFacadeTest {
                 "Unabled to to find offer with such id");
 
     }
+    @Test
+    void should_return_OfferDtoList(){
+        //given
+        JobOfferDto toSave1 = JobOfferDto.builder()
+                .title("title with 10 chars :)")
+                .description("description")
+                .salary(10000)
+                .companyName("Company")
+                .expirationDate(LocalDateTime.now().plusDays(2))
+                .build();
+        JobOfferDto toSave2 = JobOfferDto.builder()
+                .title("title with 10 chars :)")
+                .description("description")
+                .salary(10000)
+                .companyName("Company")
+                .expirationDate(LocalDateTime.now().plusDays(2))
+                .build();
+        jobOfferFacade.saveOffer(toSave1);
+        jobOfferFacade.saveOffer(toSave2);
+        //when
+        List<JobOfferDto> allOffer = jobOfferFacade.findAllOffer();
+        //then
+        org.assertj.core.api.Assertions.assertThat(allOffer).hasSize(2);
+    }
+    @Test
+    void should_return_empty_optional_if_offerList_is_empty(){
+        //given
+
+        //when
+
+        //then
+
+    }
 
     @Test
     void should_return_cache_data_for_1h_after_same_first_request(){
@@ -155,24 +190,7 @@ class JobOfferFacadeTest {
         //then
 
     }
-    @Test
-    void should_return_OfferDtoList(){
-        //given
 
-        //when
-
-        //then
-
-    }
-    @Test
-    void should_return_empty_optional_if_offerList_is_empty(){
-        //given
-
-        //when
-
-        //then
-
-    }
 
 
 

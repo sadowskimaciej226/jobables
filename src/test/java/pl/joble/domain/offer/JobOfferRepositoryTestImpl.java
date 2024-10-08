@@ -1,5 +1,6 @@
 package pl.joble.domain.offer;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -14,6 +15,13 @@ class JobOfferRepositoryTestImpl implements JobOfferRepository {
         }catch (NullPointerException e){
             throw new JobOfferNotFoundException("Not found offer with id: " + id);
         }
+    }
+
+    @Override
+    public List<JobOffer> findAll() {
+        return jobOfferDb.values()
+                .stream()
+                .toList();
     }
 
     @Override
