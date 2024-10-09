@@ -6,6 +6,7 @@ import pl.joble.domain.offer.dto.JobOfferDto;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static pl.joble.domain.offer.JobOfferMapper.*;
@@ -23,9 +24,9 @@ public class JobOfferFacade {
 
     public JobOfferDto saveOffer(JobOfferDto dto){
         if(validator.isFormatCorrect(dto)) {
-            JobOffer toSave = mapToJobOffer(dto, idGenerator);
-            JobOffer saved = jobOfferRepository.save(toSave);
-            return mapToDto(saved);
+                  JobOffer toSave = mapToJobOffer(dto, idGenerator);
+                  JobOffer saved = jobOfferRepository.save(toSave);
+                  return mapToDto(saved);
         }else throw new BadParametersException("Job offer do not accomplish requirements to be save");
     }
 
@@ -48,9 +49,9 @@ public class JobOfferFacade {
     public List<JobOfferDto> fetchAndSaveAllOffers(){
         List<JobOfferDto> fetchOffers = client.fetchAllOffers();
 
-        List<JobOfferDto> fetchedToSave = fetchOffers.stream()
+        Set<JobOfferDto> fetchedToSave = fetchOffers.stream()
                 .filter(dto -> findByTitleAndCompanyName(dto.title(), dto.companyName()).isEmpty())
-                .toList();
+                .collect(Collectors.toSet());
 
         return fetchedToSave.stream()
                 .map(dto -> saveOffer(dto))

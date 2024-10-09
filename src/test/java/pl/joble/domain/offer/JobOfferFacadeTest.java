@@ -190,14 +190,10 @@ class JobOfferFacadeTest {
         //then
         org.assertj.core.api.Assertions.assertThat(fetchedOffers).doesNotContain(toSave1, toSave2);
         org.assertj.core.api.Assertions.assertThat(fetchedOffers).hasSize(1);
+
+        org.assertj.core.api.Assertions.assertThat(jobOfferFacade.findAllOffer())
+                .contains(fetchedOffers.getFirst());
     }
-
-
-
-
-
-
-
 
 
 }
