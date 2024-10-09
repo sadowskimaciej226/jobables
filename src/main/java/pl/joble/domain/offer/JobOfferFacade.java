@@ -5,6 +5,8 @@ import pl.joble.domain.offer.dto.JobOfferDto;
 
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static pl.joble.domain.offer.JobOfferMapper.*;
 
@@ -17,6 +19,7 @@ public class JobOfferFacade {
     private final JobOfferRepository jobOfferRepository;
     private final JobOfferValidator validator;
     private final IdOfferGenerable idGenerator;
+    private final JobOfferFetcher client;
 
     public JobOfferDto saveOffer(JobOfferDto dto){
         if(validator.isFormatCorrect(dto)) {
@@ -37,5 +40,27 @@ public class JobOfferFacade {
                 .map(JobOfferMapper::mapToDto)
                 .toList();
     }
+    private Optional<JobOfferDto> findByTitleAndCompanyName(String title, String companyName){
+        Optional<JobOffer> jobOffer = jobOfferRepository.findByTitleAndCompanyName(title,companyName);
+        if(jobOffer.isEmpty()) return Optional.empty();
+        return Optional.of(mapToDto(jobOffer.get()));
+    }
+    public List<JobOfferDto> fetchAndSaveAllOffers(){
+        List<JobOfferDto> fetchOffers = client.fetchAllOffers();
+
+        List<JobOfferDto> fetchedToSave = fetchOffers.stream()
+                .filter(dto -> findByTitleAndCompanyName(dto.title(), dto.companyName()).isEmpty())
+                .toList();
+
+        return fetchedToSave.stream()
+                .map(dto -> saveOffer(dto))
+                .toList();
+
+
+    }
+
 
 }
+
+
+

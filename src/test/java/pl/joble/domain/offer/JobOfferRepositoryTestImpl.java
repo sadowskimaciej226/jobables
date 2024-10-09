@@ -25,6 +25,14 @@ class JobOfferRepositoryTestImpl implements JobOfferRepository {
     }
 
     @Override
+    public Optional<JobOffer> findByTitleAndCompanyName(String title, String companyName) {
+            return jobOfferDb.values()
+                    .stream()
+                    .filter(jobOffer -> jobOffer.title() == title && jobOffer.companyName() == companyName)
+                    .findAny();
+    }
+
+    @Override
     public JobOffer save(JobOffer toSave) {
         jobOfferDb.put(toSave.id(),toSave);
         return toSave;

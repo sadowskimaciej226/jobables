@@ -14,7 +14,9 @@ class JobOfferFacadeTest {
     JobOfferFacadeConfiguration config = new JobOfferFacadeConfiguration();
     JobOfferFacade jobOfferFacade = config.createJobOfferFacade(
             new JobOfferRepositoryTestImpl(),
-            new IdOfferGenerableTestImpl());
+            new IdOfferGenerableTestImpl(),
+            new JobOfferFetcherTestImpl());
+
 
     @Test
     void should_return_dto_after_saving(){
@@ -164,6 +166,34 @@ class JobOfferFacadeTest {
         //then
         org.assertj.core.api.Assertions.assertThat(allOffer).hasSize(2);
     }
+    @Test
+    void should_save_all_unique_fetch_offers(){
+        //given
+        JobOfferDto toSave1 = JobOfferDto.builder()
+                .title("title with 10 chars :)")
+                .description("description")
+                .salary(10000)
+                .companyName("Company")
+                .expirationDate(LocalDateTime.now().plusDays(2))
+                .build();
+        JobOfferDto toSave2 = JobOfferDto.builder()
+                .title("title with 10 chars :)")
+                .description("description")
+                .salary(10000)
+                .companyName("Company")
+                .expirationDate(LocalDateTime.now().plusDays(2))
+                .build();
+        jobOfferFacade.saveOffer(toSave1);
+        jobOfferFacade.saveOffer(toSave2);
+        //when
+        List<JobOfferDto> fetchedOffers = jobOfferFacade.fetchAndSaveAllOffers();
+        //then
+        org.assertj.core.api.Assertions.assertThat(fetchedOffers).doesNotContain(toSave1, toSave2);
+        org.assertj.core.api.Assertions.assertThat(fetchedOffers).hasSize(1);
+    }
+
+
+
 
 
 

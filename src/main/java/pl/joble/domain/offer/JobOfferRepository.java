@@ -8,5 +8,7 @@ public interface JobOfferRepository {
 
     Optional<JobOffer> findById(String id);
 
+
     List<JobOffer> findAll();
+    Optional<JobOffer> findByTitleAndCompanyName(String title, String companyName);
 }
