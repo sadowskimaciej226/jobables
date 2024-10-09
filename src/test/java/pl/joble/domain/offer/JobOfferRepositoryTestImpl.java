@@ -28,7 +28,7 @@ class JobOfferRepositoryTestImpl implements JobOfferRepository {
     public Optional<JobOffer> findByTitleAndCompanyName(String title, String companyName) {
             return jobOfferDb.values()
                     .stream()
-                    .filter(jobOffer -> jobOffer.title() == title && jobOffer.companyName() == companyName)
+                    .filter(jobOffer -> jobOffer.title().equals(title) && jobOffer.companyName().equals(companyName))
                     .findAny();
     }
 

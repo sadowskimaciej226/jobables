@@ -1,6 +1,5 @@
 package pl.joble.domain.offer;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import pl.joble.domain.offer.dto.JobOfferDto;
 
