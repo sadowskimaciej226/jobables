@@ -35,6 +35,21 @@ class JobOfferFacadeTest {
         assertThat(savedJobOfferDto.salary()).isEqualTo(jobOfferDto.salary());
 
     }
+    @Test
+    void should_override_id_when_during_saving_dto_has_it(){
+        JobOfferDto jobOfferDto = JobOfferDto.builder()
+                .id("12312312")
+                .title("title with 10 chars :)")
+                .description("description")
+                .salary(10000)
+                .companyName("Company")
+                .expirationDate(LocalDateTime.now().plusDays(2))
+                .build();
+        //when
+        JobOfferDto savedJobOfferDto =  jobOfferFacade.saveOffer(jobOfferDto);
+        //then
+        assertThat(savedJobOfferDto.id()).isNotEqualTo(jobOfferDto.id());
+    }
 
     @Test
     void should_throw_exception_if_expiration_date_is_in_the_past(){
@@ -87,22 +102,6 @@ class JobOfferFacadeTest {
     void should_throw_exception_when_toSave_has_empty_field(){
         //given
         JobOfferDto jobOfferDto = null;
-        //when
-        //then
-        assertThrows(BadParametersException.class, () -> jobOfferFacade.saveOffer(jobOfferDto),
-                ("Job offer do not accomplish requirements to be save"));
-    }
-    @Test
-    void should_throw_exception_when_object_toSave_has_id(){
-        //given
-        JobOfferDto jobOfferDto = JobOfferDto.builder()
-                .id("1")
-                .title("sdfsdfsfsd")
-                .description("description")
-                .salary(10000)
-                .companyName("qdfsfdq")
-                .expirationDate(LocalDateTime.now().plusDays(3))
-                .build();
         //when
         //then
         assertThrows(BadParametersException.class, () -> jobOfferFacade.saveOffer(jobOfferDto),

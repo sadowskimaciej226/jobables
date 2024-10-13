@@ -12,7 +12,6 @@ class JobOfferValidator {
 
     Boolean isFormatCorrect(JobOfferDto dto) {
         if(dto == null) return false;
-        if(dto.id()!=null) return false;
         if(dto.expirationDate().isBefore(REQUIRED_DATE)
             || dto.companyName().length()<MIN_COMPANY_LENGTH
             || dto.title().length()<MIN_TITLE_LENGTH) return false;
