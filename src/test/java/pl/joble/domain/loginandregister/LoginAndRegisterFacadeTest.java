@@ -2,6 +2,7 @@ package pl.joble.domain.loginandregister;
 
 import org.junit.jupiter.api.Test;
 import pl.joble.domain.loginandregister.dto.ClientDto;
+import pl.joble.domain.loginandregister.dto.ClientToRegisterDto;
 
 
 import java.util.NoSuchElementException;
@@ -20,8 +21,9 @@ class LoginAndRegisterFacadeTest {
     @Test
     void should_save_client_with_id_to_database_if_username_is_unique(){
         //given
-        ClientDto toSave1 = ClientDto.builder()
+        ClientToRegisterDto toSave1 = ClientToRegisterDto.builder()
                 .username("Tom Finger")
+                .password("somepassword123")
                 .age(123)
                 .aboutMe("There is something about me :P")
                 .location("London")
@@ -35,8 +37,9 @@ class LoginAndRegisterFacadeTest {
     @Test
     void should_throw_exception_if_username_is_already_used(){
         //given
-        ClientDto toSave1 = ClientDto.builder()
+        ClientToRegisterDto toSave1 = ClientToRegisterDto.builder()
                 .username("Tom Finger")
+                .password("somepassword123")
                 .age(123)
                 .aboutMe("There is something about me :P")
                 .location("London")
@@ -46,10 +49,11 @@ class LoginAndRegisterFacadeTest {
         //then
         assertThrows(ClientAlreadyExists.class, () -> loginAndRegisterFacade.register(toSave1).orElseThrow());
     }
+
     @Test
     void should_return_client_dto_if_user_with_such_username_exits(){
         //given
-        ClientDto toSave1 = ClientDto.builder()
+        ClientToRegisterDto toSave1 = ClientToRegisterDto.builder()
                 .username("Tom Finger")
                 .age(123)
                 .aboutMe("There is something about me :P")
@@ -64,7 +68,7 @@ class LoginAndRegisterFacadeTest {
     @Test
     void should_throw_exception_if_user_with_such_username_not_exits(){
         //given
-        ClientDto toSave1 = ClientDto.builder()
+        ClientToRegisterDto toSave1 = ClientToRegisterDto.builder()
                 .username("Tom Finger")
                 .age(123)
                 .aboutMe("There is something about me :P")

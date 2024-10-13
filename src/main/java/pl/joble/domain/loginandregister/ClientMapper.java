@@ -1,6 +1,7 @@
 package pl.joble.domain.loginandregister;
 
 import pl.joble.domain.loginandregister.dto.ClientDto;
+import pl.joble.domain.loginandregister.dto.ClientToRegisterDto;
 
 class ClientMapper {
     private ClientMapper(){}

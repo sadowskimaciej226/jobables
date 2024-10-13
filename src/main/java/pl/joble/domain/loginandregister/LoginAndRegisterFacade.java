@@ -2,6 +2,7 @@ package pl.joble.domain.loginandregister;
 
 import lombok.RequiredArgsConstructor;
 import pl.joble.domain.loginandregister.dto.ClientDto;
+import pl.joble.domain.loginandregister.dto.ClientToRegisterDto;
 
 import java.util.Optional;
 
@@ -25,11 +26,12 @@ public class LoginAndRegisterFacade {
             return Optional.of(foundClient);
         }
     }
-    public Optional<ClientDto> register(ClientDto toRegister){
+    public Optional<ClientDto> register(ClientToRegisterDto toRegister){
         if(repository.findByUsername(toRegister.username()).isEmpty()) {
             Client toSave = Client.builder()
                     .id(generator.generateId())
                     .username(toRegister.username())
+                    .password(toRegister.password())
                     .age(toRegister.age())
                     .aboutMe(toRegister.aboutMe())
                     .location(toRegister.location())
