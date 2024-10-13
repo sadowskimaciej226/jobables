@@ -13,6 +13,7 @@ class JobOfferMapper {
                 .description(dto.description())
                 .expirationDate(dto.expirationDate())
                 .salary(dto.salary())
+                .url(dto.url())
                 .build();
     }
     public static JobOfferDto mapToDto(JobOffer jobOffer){
@@ -23,6 +24,7 @@ class JobOfferMapper {
                 .description(jobOffer.description())
                 .expirationDate(jobOffer.expirationDate())
                 .salary(jobOffer.salary())
+                .url(jobOffer.url())
                 .build();
     }
 }
