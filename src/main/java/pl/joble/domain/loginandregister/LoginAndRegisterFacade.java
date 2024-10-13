@@ -17,18 +17,25 @@ public class LoginAndRegisterFacade {
     private final ClientRepository repository;
     private final IdClientGenerable generator;
     public Optional<ClientDto> findByUsername(String username){
-        Client client = repository.findByUsername(username);
-        throw new RuntimeException("Not implemented yet");
+        Optional<Client> client = repository.findByUsername(username);
+        if(client.isEmpty()){
+            return Optional.empty();
+        } else{
+            ClientDto foundClient = mapToDto(client.get());
+            return Optional.of(foundClient);
+        }
     }
     public Optional<ClientDto> register(ClientDto toRegister){
-        Client toSave = Client.builder()
-                .id(generator.generateId())
-                .username(toRegister.username())
-                .age(toRegister.age())
-                .aboutMe(toRegister.aboutMe())
-                .location(toRegister.location())
-                .build();
-        Client saved = repository.save(toSave);
-        return Optional.of(mapToDto(saved));
+        if(repository.findByUsername(toRegister.username()).isEmpty()) {
+            Client toSave = Client.builder()
+                    .id(generator.generateId())
+                    .username(toRegister.username())
+                    .age(toRegister.age())
+                    .aboutMe(toRegister.aboutMe())
+                    .location(toRegister.location())
+                    .build();
+            Client saved = repository.save(toSave);
+            return Optional.of(mapToDto(saved));
+        } else throw new ClientAlreadyExists("Client with such username already exits try with something else");
     }
 }

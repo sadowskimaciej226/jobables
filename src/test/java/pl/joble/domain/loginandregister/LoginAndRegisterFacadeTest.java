@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import pl.joble.domain.loginandregister.dto.ClientDto;
 import pl.joble.domain.offer.JobOfferFacade;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -17,7 +18,7 @@ class LoginAndRegisterFacadeTest {
     );
 
     @Test
-    void should_save_client_to_database_if_username_is_unique(){
+    void should_save_client_with_id_to_database_if_username_is_unique(){
         //given
         ClientDto toSave1 = ClientDto.builder()
                 .username("Tom Finger")
@@ -25,18 +26,54 @@ class LoginAndRegisterFacadeTest {
                 .aboutMe("There is something about me :P")
                 .location("London")
                 .build();
-        ClientDto toSave2 = ClientDto.builder()
+        //when
+        ClientDto registered1 = loginAndRegisterFacade.register(toSave1).orElseThrow();
+        //then
+        assertThat(toSave1.username()).isEqualTo(registered1.username());
+        assertThat(registered1.id()).isNotNull();
+    }
+    @Test
+    void should_throw_exception_if_username_is_already_used(){
+        //given
+        ClientDto toSave1 = ClientDto.builder()
                 .username("Tom Finger")
                 .age(123)
                 .aboutMe("There is something about me :P")
                 .location("London")
                 .build();
+        ClientDto registered1 = loginAndRegisterFacade.register(toSave1).orElseThrow();
         //when
-        Optional<ClientDto> registered1 = loginAndRegisterFacade.register(toSave1);
-        Optional<ClientDto> registered2 = loginAndRegisterFacade.register(toSave1);
         //then
-
-
+        assertThrows(ClientAlreadyExists.class, () -> loginAndRegisterFacade.register(toSave1).orElseThrow());
+    }
+    @Test
+    void should_return_client_dto_if_user_with_such_username_exits(){
+        //given
+        ClientDto toSave1 = ClientDto.builder()
+                .username("Tom Finger")
+                .age(123)
+                .aboutMe("There is something about me :P")
+                .location("London")
+                .build();
+        ClientDto registered1 = loginAndRegisterFacade.register(toSave1).orElseThrow();
+        //when
+        ClientDto tomFinger = loginAndRegisterFacade.findByUsername("Tom Finger").orElseThrow();
+        //then
+        assertThat(registered1).isEqualTo(tomFinger);
+    }
+    @Test
+    void should_throw_exception_if_user_with_such_username_not_exits(){
+        //given
+        ClientDto toSave1 = ClientDto.builder()
+                .username("Tom Finger")
+                .age(123)
+                .aboutMe("There is something about me :P")
+                .location("London")
+                .build();
+        ClientDto registered1 = loginAndRegisterFacade.register(toSave1).orElseThrow();
+        //when
+        //then
+        assertThrows(NoSuchElementException.class,() -> loginAndRegisterFacade.findByUsername("Other username").orElseThrow());
     }
 
 }
