@@ -46,7 +46,7 @@ class LoginAndRegisterFacadeTest {
          loginAndRegisterFacade.register(toSave1).orElseThrow();
         //when
         //then
-        assertThrows(ClientAlreadyExists.class, () -> loginAndRegisterFacade.register(toSave1).orElseThrow());
+        assertThrows(ClientAlreadyExistsException.class, () -> loginAndRegisterFacade.register(toSave1).orElseThrow());
     }
 
     @Test

@@ -33,6 +33,6 @@ public class LoginAndRegisterFacade {
                     .build();
             Client saved = repository.save(toSave);
             return Optional.of(mapToDto(saved));
-        } else throw new ClientAlreadyExists("Client with such username already exits try with something else");
+        } else throw new ClientAlreadyExistsException("Client with such username already exits try with something else");
     }
 }
