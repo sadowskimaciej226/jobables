@@ -8,15 +8,10 @@ import java.util.Optional;
 
 import static pl.joble.domain.loginandregister.ClientMapper.*;
 
-/*
-Po zapytaniu get client otrzyma swoje dane {id, name, age} jako dto
-Klient otrzymuje błąd jesli użytkownik nie istnieje(pusty optional git)
-
- */
 @RequiredArgsConstructor
 public class LoginAndRegisterFacade {
     private final ClientRepository repository;
-    private final IdClientGenerable generator;
+
     public Optional<ClientDto> findByUsername(String username){
         Optional<Client> client = repository.findByUsername(username);
         if(client.isEmpty()){
@@ -29,7 +24,7 @@ public class LoginAndRegisterFacade {
     public Optional<ClientDto> register(ClientToRegisterDto toRegister){
         if(repository.findByUsername(toRegister.username()).isEmpty()) {
             Client toSave = Client.builder()
-                    .id(generator.generateId())
+
                     .username(toRegister.username())
                     .password(toRegister.password())
                     .age(toRegister.age())

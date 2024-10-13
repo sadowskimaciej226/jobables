@@ -14,8 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class LoginAndRegisterFacadeTest {
     LoginAndRegisterFacadeConfiguration config = new LoginAndRegisterFacadeConfiguration();
     LoginAndRegisterFacade loginAndRegisterFacade = config.createLoginAndRegisterFacade(
-            new ClientRepositoryTestImpl(),
-            new IDClientGenerableTestImpl()
+            new ClientRepositoryTestImpl()
     );
 
     @Test
@@ -32,7 +31,7 @@ class LoginAndRegisterFacadeTest {
         ClientDto registered1 = loginAndRegisterFacade.register(toSave1).orElseThrow();
         //then
         assertThat(toSave1.username()).isEqualTo(registered1.username());
-        assertThat(registered1.id()).isNotNull();
+
     }
     @Test
     void should_throw_exception_if_username_is_already_used(){
