@@ -2,10 +2,10 @@ package pl.joble.domain.loginandregister;
 
 import org.junit.jupiter.api.Test;
 import pl.joble.domain.loginandregister.dto.ClientDto;
-import pl.joble.domain.offer.JobOfferFacade;
+
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
+
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -41,7 +41,7 @@ class LoginAndRegisterFacadeTest {
                 .aboutMe("There is something about me :P")
                 .location("London")
                 .build();
-        ClientDto registered1 = loginAndRegisterFacade.register(toSave1).orElseThrow();
+         loginAndRegisterFacade.register(toSave1).orElseThrow();
         //when
         //then
         assertThrows(ClientAlreadyExists.class, () -> loginAndRegisterFacade.register(toSave1).orElseThrow());
@@ -70,7 +70,7 @@ class LoginAndRegisterFacadeTest {
                 .aboutMe("There is something about me :P")
                 .location("London")
                 .build();
-        ClientDto registered1 = loginAndRegisterFacade.register(toSave1).orElseThrow();
+        loginAndRegisterFacade.register(toSave1).orElseThrow();
         //when
         //then
         assertThrows(NoSuchElementException.class,() -> loginAndRegisterFacade.findByUsername("Other username").orElseThrow());
