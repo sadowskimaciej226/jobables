@@ -190,7 +190,7 @@ class JobOfferFacadeTest {
         org.assertj.core.api.Assertions.assertThat(fetchedOffers).hasSize(1);
 
         org.assertj.core.api.Assertions.assertThat(jobOfferFacade.findAllOffer())
-                .contains(fetchedOffers.getFirst());
+                .contains(fetchedOffers.get(0));
     }
 
 
