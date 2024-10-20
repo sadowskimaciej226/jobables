@@ -2,12 +2,14 @@ package pl.joble.domain.offer;
 
 import lombok.RequiredArgsConstructor;
 import pl.joble.domain.offer.dto.JobOfferDto;
+import pl.joble.domain.offer.dto.ResponseJobOfferDto;
 
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static pl.joble.domain.offer.JobOfferMapper.*;
 
@@ -41,16 +43,26 @@ public class JobOfferFacade {
                 .map(JobOfferMapper::mapToDto)
                 .toList();
     }
-    private Optional<JobOfferDto> findByTitleAndCompanyName(String title, String companyName){
-        Optional<JobOffer> jobOffer = jobOfferRepository.findByTitleAndCompanyName(title,companyName);
+    private Optional<JobOfferDto> findByUrl(String url){
+        Optional<JobOffer> jobOffer = jobOfferRepository.findByUrl(url);
         if(jobOffer.isEmpty()) return Optional.empty();
         return Optional.of(mapToDto(jobOffer.get()));
     }
     public List<JobOfferDto> fetchAndSaveAllOffers(){
-        List<JobOfferDto> fetchOffers = client.fetchAllOffers();
+        List<ResponseJobOfferDto> fetchOffersResponse = client.fetchAllOffers();
+
+        List<JobOfferDto> fetchOffers = fetchOffersResponse.stream()
+                .map(dto -> {
+                    return JobOfferDto.builder()
+                            .title(dto.title())
+                            .companyName(dto.company())
+                            .salary(dto.salary())
+                            .url(dto.offerUrl())
+                            .build();
+                }).toList();
 
         Set<JobOfferDto> fetchedToSave = fetchOffers.stream()
-                .filter(dto -> findByTitleAndCompanyName(dto.title(), dto.companyName()).isEmpty())
+                .filter(dto -> findByUrl(dto.url()).isEmpty())
                 .collect(Collectors.toSet());
 
         return fetchedToSave.stream()
