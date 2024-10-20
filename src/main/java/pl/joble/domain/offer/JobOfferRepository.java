@@ -10,5 +10,5 @@ public interface JobOfferRepository {
 
 
     List<JobOffer> findAll();
-    Optional<JobOffer> findByTitleAndCompanyName(String title, String companyName);
+    Optional<JobOffer> findByUrl(String url);
 }

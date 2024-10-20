@@ -11,7 +11,6 @@ class JobOfferMapper {
                 .title(dto.title())
                 .companyName(dto.companyName())
                 .description(dto.description())
-                .expirationDate(dto.expirationDate())
                 .salary(dto.salary())
                 .url(dto.url())
                 .build();
@@ -22,7 +21,6 @@ class JobOfferMapper {
                 .title(jobOffer.title())
                 .companyName(jobOffer.companyName())
                 .description(jobOffer.description())
-                .expirationDate(jobOffer.expirationDate())
                 .salary(jobOffer.salary())
                 .url(jobOffer.url())
                 .build();

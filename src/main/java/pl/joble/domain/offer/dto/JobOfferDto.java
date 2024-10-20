@@ -6,6 +6,6 @@ import java.time.LocalDateTime;
 
 @Builder
 public record JobOfferDto(String id, String title, String description, String companyName,
-                          LocalDateTime expirationDate, Integer salary,
+                           Integer salary,
                           String url) {
 }
