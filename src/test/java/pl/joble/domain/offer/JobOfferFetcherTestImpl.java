@@ -1,34 +1,25 @@
 package pl.joble.domain.offer;
 
 import pl.joble.domain.offer.dto.JobOfferDto;
+import pl.joble.domain.offer.dto.ResponseJobOfferDto;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 class JobOfferFetcherTestImpl implements JobOfferFetcher{
     @Override
-    public List<JobOfferDto> fetchAllOffers() {
-        return List.of(JobOfferDto.builder()
+    public List<ResponseJobOfferDto> fetchAllOffers() {
+        return List.of(ResponseJobOfferDto.builder()
                         .title("title with 10 chars :)")
-                        .description("description")
                         .salary(10000)
-                        .companyName("Company")
-                        .expirationDate(LocalDateTime.now().plusDays(2))
+                        .company("Company")
+                        .offerUrl("122")
                         .build(),
-
-                JobOfferDto.builder()
-                        .title("other title with 10 chars")
-                        .description("description")
+                ResponseJobOfferDto.builder()
+                        .title("title with 10 chars :)")
                         .salary(10000)
-                        .companyName("Different Company")
-                        .expirationDate(LocalDateTime.now().plusDays(2))
-                        .build(),
-                JobOfferDto.builder()
-                        .title("other title with 10 chars")
-                        .description("description")
-                        .salary(10000)
-                        .companyName("Different Company")
-                        .expirationDate(LocalDateTime.now().plusDays(2))
+                        .company("Company")
+                        .offerUrl("122")
                         .build()
         );
     }
