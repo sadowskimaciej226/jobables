@@ -163,8 +163,8 @@ class JobOfferFacadeTest {
         //when
         List<JobOfferDto> fetchedOffers = jobOfferFacade.fetchAndSaveAllOffers();
         //then
-        assertThat(fetchedOffers.getFirst().url()).isNotEqualTo(toSave2.url());
-
+        assertThat(fetchedOffers.get(0).url()).isNotEqualTo(toSave2.url());
+        org.assertj.core.api.Assertions.assertThat(jobOfferFacade.findAllOffer()).hasSize(3);
 
     }
 
