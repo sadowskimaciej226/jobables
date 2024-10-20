@@ -165,6 +165,7 @@ class JobOfferFacadeTest {
         //then
         assertThat(fetchedOffers.getFirst().url()).isNotEqualTo(toSave2.url());
 
+
     }
 
 
