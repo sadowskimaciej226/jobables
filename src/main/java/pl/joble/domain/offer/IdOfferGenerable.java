@@ -1,6 +1,6 @@
 package pl.joble.domain.offer;
 
-interface IdOfferGenerable {
+public interface IdOfferGenerable {
 
     String generateId();
 }
