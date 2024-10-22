@@ -7,6 +7,6 @@ import java.time.LocalDateTime;
 
 @Builder
 record JobOffer(String id, String title,
-                String description, String companyName, Integer salary,
+                String description, String companyName, String salary,
                 String url) {
 }

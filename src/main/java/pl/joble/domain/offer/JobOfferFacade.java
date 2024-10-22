@@ -56,7 +56,7 @@ public class JobOfferFacade {
                     return JobOfferDto.builder()
                             .title(dto.title())
                             .companyName(dto.company())
-                            .salary(dto.salary())
+                            .salary(dto.salary().toString())
                             .url(dto.offerUrl())
                             .build();
                 }).toList();

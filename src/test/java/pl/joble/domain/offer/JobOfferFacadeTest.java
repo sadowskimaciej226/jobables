@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class JobOfferFacadeTest {
     JobOfferFacadeConfiguration config = new JobOfferFacadeConfiguration();
-    JobOfferFacade jobOfferFacade = config.createJobOfferFacade(
+    JobOfferFacade jobOfferFacade = config.createJobOfferFacadeForTest(
             new JobOfferRepositoryTestImpl(),
             new IdOfferGenerableTestImpl(),
             new JobOfferFetcherTestImpl());
@@ -22,7 +22,7 @@ class JobOfferFacadeTest {
         JobOfferDto jobOfferDto = JobOfferDto.builder()
                 .title("title with 10 chars :)")
                 .description("description")
-                .salary(10000)
+                .salary("10000")
                 .companyName("Company")
                 .build();
         //when
@@ -39,7 +39,7 @@ class JobOfferFacadeTest {
                 .id("12312312")
                 .title("title with 10 chars :)")
                 .description("description")
-                .salary(10000)
+                .salary("10000")
                 .companyName("Company")
                 .build();
         //when
@@ -55,7 +55,7 @@ class JobOfferFacadeTest {
         JobOfferDto jobOfferDto = JobOfferDto.builder()
                 .title("title")
                 .description("description")
-                .salary(10000)
+                .salary("10000")
                 .companyName("Company")
                 .build();
         //when
@@ -70,7 +70,7 @@ class JobOfferFacadeTest {
         JobOfferDto jobOfferDto = JobOfferDto.builder()
                 .title("sdfsdfsfsd")
                 .description("description")
-                .salary(10000)
+                .salary("10000")
                 .companyName("qq")
                 .build();
         //when
@@ -95,7 +95,7 @@ class JobOfferFacadeTest {
         JobOfferDto toSave = JobOfferDto.builder()
                 .title("title with 10 chars :)")
                 .description("description")
-                .salary(10000)
+                .salary("10000")
                 .companyName("Company")
                 .build();
         JobOfferDto saved = jobOfferFacade.saveOffer(toSave);
@@ -109,7 +109,7 @@ class JobOfferFacadeTest {
         JobOfferDto toSave = JobOfferDto.builder()
                 .title("title with 10 chars :)")
                 .description("description")
-                .salary(10000)
+                .salary("10000")
                 .companyName("Company")
                 .build();
         jobOfferFacade.saveOffer(toSave);
@@ -125,13 +125,13 @@ class JobOfferFacadeTest {
         JobOfferDto toSave1 = JobOfferDto.builder()
                 .title("title with 10 chars :)")
                 .description("description")
-                .salary(10000)
+                .salary("10000")
                 .companyName("Company")
                 .build();
         JobOfferDto toSave2 = JobOfferDto.builder()
                 .title("title with 10 chars :)")
                 .description("description")
-                .salary(10000)
+                .salary("10000")
                 .companyName("Company")
                 .build();
         jobOfferFacade.saveOffer(toSave1);
@@ -147,14 +147,14 @@ class JobOfferFacadeTest {
         JobOfferDto toSave1 = JobOfferDto.builder()
                 .title("title with 10 chars :)")
                 .description("description")
-                .salary(10000)
+                .salary("10000")
                 .companyName("TOSAVE1")
                 .url("123")
                 .build();
         JobOfferDto toSave2 = JobOfferDto.builder()
                 .title("title with 10 chars :)")
                 .description("description")
-                .salary(10000)
+                .salary("10000")
                 .companyName("TOSAVE2")
                 .url("1423")
                 .build();

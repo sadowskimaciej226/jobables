@@ -11,13 +11,13 @@ class JobOfferFetcherTestImpl implements JobOfferFetcher{
     public List<ResponseJobOfferDto> fetchAllOffers() {
         return List.of(ResponseJobOfferDto.builder()
                         .title("title with 10 chars :)")
-                        .salary(10000)
+                        .salary("10000")
                         .company("Company")
                         .offerUrl("122")
                         .build(),
                 ResponseJobOfferDto.builder()
                         .title("title with 10 chars :)")
-                        .salary(10000)
+                        .salary("10000")
                         .company("Company")
                         .offerUrl("122")
                         .build()
