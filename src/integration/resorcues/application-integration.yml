@@ -1,0 +1,3 @@
+
+http.offers.scheduler.request.delay=*/1 * * * * *
+scheduling.enabled=false
