@@ -65,7 +65,7 @@ public class JobOfferFacade {
                 .collect(Collectors.toSet());
 
         return fetchedToSave.stream()
-                //.map(dto -> saveOffer(dto)) //todo uncomment this after adding database to project
+                .map(dto -> saveOffer(dto))
                 .toList();
 
 
