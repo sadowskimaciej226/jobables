@@ -4,14 +4,13 @@ import lombok.RequiredArgsConstructor;
 import pl.joble.domain.offer.dto.JobOfferDto;
 import pl.joble.domain.offer.dto.ResponseJobOfferDto;
 
-
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import static pl.joble.domain.offer.JobOfferMapper.*;
+import static pl.joble.domain.offer.JobOfferMapper.mapToDto;
+import static pl.joble.domain.offer.JobOfferMapper.mapToJobOffer;
 
 //offers CRUD(rather CR than CRUD) operations with periodically fetching data
 //can return all offers
@@ -56,7 +55,7 @@ public class JobOfferFacade {
                     return JobOfferDto.builder()
                             .title(dto.title())
                             .companyName(dto.company())
-                            .salary(dto.salary())
+                            .salary(dto.salary().toString())
                             .url(dto.offerUrl())
                             .build();
                 }).toList();
@@ -66,7 +65,7 @@ public class JobOfferFacade {
                 .collect(Collectors.toSet());
 
         return fetchedToSave.stream()
-                .map(dto -> saveOffer(dto))
+                //.map(dto -> saveOffer(dto)) //todo uncomment this after adding database to project
                 .toList();
 
 
