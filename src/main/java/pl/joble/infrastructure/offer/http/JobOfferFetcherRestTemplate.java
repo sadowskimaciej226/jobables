@@ -1,4 +1,4 @@
-package pl.joble.offer.http;
+package pl.joble.infrastructure.offer.http;
 
 import lombok.AllArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;

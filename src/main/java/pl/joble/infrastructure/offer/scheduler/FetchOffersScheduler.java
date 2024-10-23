@@ -1,4 +1,4 @@
-package pl.joble.offer.scheduler;
+package pl.joble.infrastructure.offer.scheduler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

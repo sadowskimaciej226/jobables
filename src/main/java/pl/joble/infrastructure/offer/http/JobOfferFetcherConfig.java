@@ -1,4 +1,4 @@
-package pl.joble.offer.http;
+package pl.joble.infrastructure.offer.http;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
