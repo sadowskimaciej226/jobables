@@ -10,32 +10,6 @@ import java.util.Optional;
 public class JobOfferFacadeConfiguration {
 
     @Bean
-    JobOfferRepository jobOfferRepository(){
-        return new JobOfferRepository() {
-            @Override
-            public JobOffer save(JobOffer toSave) {
-                return null;
-            }
-
-            @Override
-            public Optional<JobOffer> findById(String id) {
-                return Optional.empty();
-            }
-
-            @Override
-            public List<JobOffer> findAll() {
-                return null;
-            }
-
-            @Override
-            public Optional<JobOffer> findByUrl(String url) {
-                return Optional.empty();
-            }
-        };
-    }
-
-
-    @Bean
     public JobOfferFacade jobOfferFacade(JobOfferRepository repo,
                                          JobOfferFetcher fetcher){
         JobOfferValidator validator = new JobOfferValidator();

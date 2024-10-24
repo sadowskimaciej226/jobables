@@ -7,7 +7,6 @@ class JobOfferMapper {
 
     public static JobOffer mapToJobOffer(JobOfferDto dto, IdOfferGenerable generator){
         return JobOffer.builder()
-                .id(generator.generateId())
                 .title(dto.title())
                 .companyName(dto.companyName())
                 .description(dto.description())

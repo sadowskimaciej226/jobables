@@ -1,10 +1,11 @@
 package pl.joble.domain.offer;
 
+import org.springframework.data.mongodb.repository.MongoRepository;
+
 import java.util.List;
 import java.util.Optional;
 
-public interface JobOfferRepository {
-    JobOffer save(JobOffer toSave);
+public interface JobOfferRepository extends MongoRepository<JobOffer, String> {
 
     Optional<JobOffer> findById(String id);
 
