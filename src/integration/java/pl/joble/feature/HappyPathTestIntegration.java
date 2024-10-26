@@ -1,5 +1,6 @@
 package pl.joble.feature;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 import pl.joble.BaseIntegrationTest;
 
 import pl.joble.domain.offer.JobOfferFacade;
@@ -16,8 +19,11 @@ import pl.joble.infrastructure.offer.scheduler.FetchOffersScheduler;
 
 import java.util.List;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 public class HappyPathTestIntegration extends BaseIntegrationTest implements SampleJobOfferResponse{
@@ -28,7 +34,7 @@ public class HappyPathTestIntegration extends BaseIntegrationTest implements Sam
     @Autowired
     JobOfferFacade jobOfferFacade;
     @Test
-    public void should_user_get_offers(){
+    public void should_user_get_offers() throws Exception {
         wireMockServer.stubFor(WireMock.get("/offers")
                 .willReturn(WireMock.aResponse()
                         .withStatus(HttpStatus.OK.value())
@@ -41,17 +47,15 @@ public class HappyPathTestIntegration extends BaseIntegrationTest implements Sam
         //then
         assertThat(fetchedWithZeroOffers, is(empty()));
 
-//        2.	Scheduler made Get to server every 3 hours
-        wireMockServer.stubFor(WireMock.get("/offers")
-                .willReturn(WireMock.aResponse()
-                        .withStatus(HttpStatus.OK.value())
-                        .withHeader("Content-Type", "application/json")
-                        .withBody(bodyWithTwoOffersJson())));
-        //given
-        //when
-        List<JobOfferDto> fetchedWithTwoOffers = jobOfferFacade.fetchAndSaveAllOffers();
-        //then
-        assertThat(fetchedWithTwoOffers, hasSize(2));
+        ResultActions perform = mockMvc.perform(get("/offer"));
+
+        MvcResult mvcResult = perform.andExpect(status().isOk()).andReturn();
+        String jsonWithOffers = mvcResult.getResponse().getContentAsString();
+        List<JobOfferDto> offers = objectMapper.readValue(jsonWithOffers, new TypeReference<>() {
+        });
+        assertThat(offers, is(empty()));
+
+
 //        4.	System validates data and return 200 OK with JWT token if validation is successful or 400 BAD REQUEST if for example there is already user with that email
 //        5.	If account already exists user can POST /login with email and password to get jwt token, system can return 200OK with JWT or 400 BAD REQUEST if password is wrong
 //        6.	User with JWT(and in any endpoint except /login and /singin) can GET /joboffers,
