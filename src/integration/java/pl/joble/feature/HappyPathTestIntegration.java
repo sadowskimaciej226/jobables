@@ -23,6 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -55,6 +56,13 @@ public class HappyPathTestIntegration extends BaseIntegrationTest implements Sam
         });
         assertThat(offers, is(empty()));
 
+        ResultActions perform2 = mockMvc.perform(get("/offer" + "/notexistingid"));
+
+        perform2.andExpect(status().isNotFound())
+                .andExpect(content().json("""
+                {"message": "Offer not found with id: notexistingid",
+                "status": "NOT_FOUND"}
+                """));
 
 //        4.	System validates data and return 200 OK with JWT token if validation is successful or 400 BAD REQUEST if for example there is already user with that email
 //        5.	If account already exists user can POST /login with email and password to get jwt token, system can return 200OK with JWT or 400 BAD REQUEST if password is wrong
