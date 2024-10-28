@@ -32,7 +32,7 @@ public class JobOfferFacade {
     }
 
     public JobOfferDto findOfferById(String id) {
-        JobOffer foundOffer = jobOfferRepository.findById(id).orElseThrow(() -> new JobOfferNotFoundException("Not found offer with id: " + id));
+        JobOffer foundOffer = jobOfferRepository.findById(id).orElseThrow(() -> new JobOfferNotFoundException("Not found for id: " + id));
         return mapToDto(foundOffer);
 
     }
