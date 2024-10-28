@@ -60,9 +60,12 @@ public class HappyPathTestIntegration extends BaseIntegrationTest implements Sam
 
         perform2.andExpect(status().isNotFound())
                 .andExpect(content().json("""
-                {"message": "Offer not found with id: notexistingid",
-                "status": "NOT_FOUND"}
-                """));
+                        {
+                        "message": "Not found for id: notexistingid",
+                        "status": "NOT_FOUND"
+                        }
+                        """.trim()
+                ));
 
 //        4.	System validates data and return 200 OK with JWT token if validation is successful or 400 BAD REQUEST if for example there is already user with that email
 //        5.	If account already exists user can POST /login with email and password to get jwt token, system can return 200OK with JWT or 400 BAD REQUEST if password is wrong
