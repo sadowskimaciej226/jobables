@@ -1,5 +1,6 @@
 package pl.joble.infrastructure.offer.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,5 +22,10 @@ class JobOfferController {
     @GetMapping("{id}")
     ResponseEntity<JobOfferDto> getOfferById(@PathVariable String id){
         return ResponseEntity.ok(facade.findOfferById(id));
+    }
+    @PostMapping()
+    ResponseEntity<JobOfferDto> saveOffer(@RequestBody @Valid JobOfferDto dto){
+        JobOfferDto savedOffer = facade.saveOffer(dto);
+        return ResponseEntity.ok(savedOffer);
     }
 }
