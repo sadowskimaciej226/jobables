@@ -2,10 +2,9 @@ package pl.joble.feature;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.tomakehurst.wiremock.client.WireMock;
-import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
+
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.RegisterExtension;
-import org.mockito.Mock;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -16,6 +15,7 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
+
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.utility.DockerImageName;
@@ -27,7 +27,6 @@ import pl.joble.infrastructure.offer.scheduler.FetchOffersScheduler;
 
 import java.util.List;
 
-import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -37,6 +36,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 public class HappyPathTestIntegration extends BaseIntegrationTest implements SampleJobOfferResponse{
+
+    @Container
+    public static final MongoDBContainer mongoDBContainer = new MongoDBContainer(DockerImageName.parse("mongo:4.0.10"));
+    @DynamicPropertySource
+    public static void propertyOverride(DynamicPropertyRegistry registry){
+        registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+        registry.add("joboffer.http.client.config.port", () -> wireMockServer.getPort());
+        registry.add("joboffer.http.client.config.uri", () -> WIRE_MOCK_HOST);
+    }
 
 
     @MockBean

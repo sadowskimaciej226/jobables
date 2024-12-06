@@ -21,6 +21,15 @@ import static org.mockito.Mockito.verify;
 @SpringBootTest(classes = JobablesSpringApplication.class, properties = "scheduling.enabled=true")
 public class HttpOffersSchedulerTest extends BaseIntegrationTest {
 
+    @Container
+    public static final MongoDBContainer mongoDBContainer = new MongoDBContainer(DockerImageName.parse("mongo:4.0.10"));
+    @DynamicPropertySource
+    public static void propertyOverride(DynamicPropertyRegistry registry){
+        registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+        registry.add("joboffer.http.client.config.port", () -> wireMockServer.getPort());
+        registry.add("joboffer.http.client.config.uri", () -> WIRE_MOCK_HOST);
+    }
+
     @SpyBean
     JobOfferFetcher fetcher;
     @Test
