@@ -26,8 +26,8 @@ public class JobOfferFetcherConfig {
 
     @Bean
     public JobOfferFetcherRestTemplate remoteNumberGeneratorClient(RestTemplate restTemplate,
-                                                             @Value("${lotto.number-generator.http.client.config.uri}") String uri,
-                                                             @Value("${lotto.number-generator.http.client.config.port}") int port) {
+                                                             @Value("${joboffer.http.client.config.uri}") String uri,
+                                                             @Value("${joboffer.http.client.config.port}") int port) {
         return new JobOfferFetcherRestTemplate(restTemplate, uri, port);
     }
 }
