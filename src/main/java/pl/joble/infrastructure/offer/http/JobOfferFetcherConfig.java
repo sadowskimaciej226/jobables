@@ -25,9 +25,9 @@ public class JobOfferFetcherConfig {
     }
 
     @Bean
-    public JobOfferFetcherRestTemplate remoteNumberGeneratorClient(RestTemplate restTemplate,
-                                                             @Value("${joboffer.http.client.config.uri}") String uri,
-                                                             @Value("${joboffer.http.client.config.port}") int port) {
+    public JobOfferFetcherRestTemplate remoteJobOfferClient(RestTemplate restTemplate,
+                                                            @Value("${joboffer.http.client.config.uri}") String uri,
+                                                            @Value("${joboffer.http.client.config.port}") int port) {
         return new JobOfferFetcherRestTemplate(restTemplate, uri, port);
     }
 }
