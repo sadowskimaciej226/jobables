@@ -21,8 +21,10 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.utility.DockerImageName;
 import pl.joble.BaseIntegrationTest;
 
+import pl.joble.domain.loginandregister.dto.RegistrationResultDto;
 import pl.joble.domain.offer.JobOfferFacade;
 import pl.joble.domain.offer.dto.JobOfferDto;
+import pl.joble.infrastructure.login.controller.JwtResponse;
 import pl.joble.infrastructure.offer.scheduler.FetchOffersScheduler;
 
 import java.util.List;
@@ -62,10 +64,64 @@ public class HappyPathTestIntegration extends BaseIntegrationTest implements Sam
                         .withBody(bodyWithZeroOffersJson())));
 
 //       2. user tried to get JWT token by requesting POST /token with username=name, password = pass and system returned error
-//       3. user made GET /offers with no jwt token and system returned UNAUTHORIZED(401)
-//       4. user made POST /register with username=name, password= pass adne system registered user with status OK(200)
-//       5. user tried to get JWT token by requesting POST /token with username= user, password= pass and system returned OK(200) with token
+        //given
+        //when
+        ResultActions failedLoginRequest = mockMvc.perform(post("/token")
+                .content("""
+                        {
+                        "username": "name",
+                        "password": "pass"
+                        }
+                        """.trim())
+                .contentType(MediaType.APPLICATION_JSON));
 
+        failedLoginRequest
+                .andExpect(status().isUnauthorized())
+                .andExpect(content().json("""
+                                   {
+                                   "message": "User not found",
+                                   "status": "UNAUTHORIZED"
+                                   }
+                                   """.trim()));
+        //
+//       3. user made GET /offers with no jwt token and system returned UNAUTHORIZED(401)
+        //given when
+        ResultActions performToGetUnauthorized = mockMvc.perform(get("/offer"));
+        //then
+        performToGetUnauthorized.andExpect(status().isUnauthorized());
+//       4. user made POST /register with username=name, password= pass adne system registered user with status OK(200)
+        //given when
+        ResultActions performRegister = mockMvc.perform(post("/register")
+                .content("""
+                        {
+                        "username": "name",
+                        "password": "pass"
+                        }
+                        """.trim())
+                .contentType(MediaType.APPLICATION_JSON));
+
+        //then
+        MvcResult mvcResult1 = performRegister.andExpect(status().isOk()).andReturn();
+        String contentAsString = mvcResult1.getResponse().getContentAsString();
+        RegistrationResultDto registrationResultDto = objectMapper.readValue(contentAsString, RegistrationResultDto.class);
+        assertThat(registrationResultDto.username(), equalTo("name"));
+        assertThat(registrationResultDto.isRegistered(), equalTo(true));
+        assertThat(registrationResultDto.id(), notNullValue());
+
+//       5. user tried to get JWT token by requesting POST /token with username= user, password= pass and system returned OK(200) with token
+        ResultActions successLoginPerform = mockMvc.perform(post("/token")
+                .content("""
+                        {
+                        "username": "name",
+                        "password": "pass"
+                        }
+                        """.trim())
+                .contentType(MediaType.APPLICATION_JSON));
+        MvcResult mvcResult2 = successLoginPerform.andExpect(status().isOk()).andReturn();
+        String contentAsString1 = mvcResult2.getResponse().getContentAsString();
+        JwtResponse jwtResponse = objectMapper.readValue(contentAsString1, JwtResponse.class);
+        assertThat(jwtResponse.username(), equalTo("name"));
+        String token = jwtResponse.token();
 
 //       6.	Scheduler runs for the 1st time and made GET to server to get All joboffers
         //given
@@ -74,7 +130,8 @@ public class HappyPathTestIntegration extends BaseIntegrationTest implements Sam
         //then
         assertThat(fetchedWithZeroOffers, is(empty()));
 
-        ResultActions perform = mockMvc.perform(get("/offer"));
+        ResultActions perform = mockMvc.perform(get("/offer")
+                .header("Authorization", "Bearer: " + token));
 
         MvcResult mvcResult = perform.andExpect(status().isOk()).andReturn();
         String jsonWithOffers = mvcResult.getResponse().getContentAsString();
@@ -95,7 +152,6 @@ public class HappyPathTestIntegration extends BaseIntegrationTest implements Sam
                         """.trim()
                 ));
 
-
 //       8. There are 2 new offers in external HTTP server
         //given
         //when
@@ -106,14 +162,12 @@ public class HappyPathTestIntegration extends BaseIntegrationTest implements Sam
                         .withHeader("Content-Type", "application/json")
                         .withBody(bodyWithTwoOffersJson())));
 
-
 //       9. Scheduler ran 2nd tune and made GET to external server and system added 2 new offers
         //given
         //when
         List<JobOfferDto> fetchedWithTwoOffers = jobOfferFacade.fetchAndSaveAllOffers();
 
         assertThat(fetchedWithTwoOffers, hasSize(2));
-
 
 //       10. User made GET /offers with headed "Authorization: Bearer "AAAA.BBB.CCC" and system returned OK with 2 offers id
         //given
@@ -126,7 +180,6 @@ public class HappyPathTestIntegration extends BaseIntegrationTest implements Sam
         });
         //then
         assertThat(twoJobOfferDto.get(1).title(), equalTo("Junior Java Developer"));
-
 
 //       12. User made get/offers/id and system returned OK with offer
         //given
@@ -157,7 +210,6 @@ public class HappyPathTestIntegration extends BaseIntegrationTest implements Sam
         //then
         assertThat(fetchedWithFourOffers, hasSize(2));
 
-
 //       15. User made GET /offers with header "Authorization: AAAA>BBB>CCC" and system returned OK with 4 offers id
         ResultActions performToGetFourOffers = mockMvc.perform(get("/offer"));
         MvcResult fourOffersResult = performToGetFourOffers.andExpect(status().isOk()).andReturn();
@@ -166,7 +218,6 @@ public class HappyPathTestIntegration extends BaseIntegrationTest implements Sam
         });
         //then
         assertThat(fourJobOfferDto.get(3).title(), equalTo("Senior Java Developer"));
-
 
 //        16.	User can save joboffer on POST /joboffer only with unique url
         //given
@@ -189,8 +240,6 @@ public class HappyPathTestIntegration extends BaseIntegrationTest implements Sam
         //then
         assertThat(jobOfferDto.url(), equalTo("link "));
         assertThat(jobOfferDto.salary(), equalTo("10000"));
-
-
     }
 
 }

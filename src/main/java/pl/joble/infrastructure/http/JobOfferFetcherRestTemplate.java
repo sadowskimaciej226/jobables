@@ -1,4 +1,4 @@
-package pl.joble.infrastructure.offer.http;
+package pl.joble.infrastructure.http;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
