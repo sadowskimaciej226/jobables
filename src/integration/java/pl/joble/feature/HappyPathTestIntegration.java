@@ -88,7 +88,7 @@ public class HappyPathTestIntegration extends BaseIntegrationTest implements Sam
         //given when
         ResultActions performToGetUnauthorized = mockMvc.perform(get("/offer"));
         //then
-        performToGetUnauthorized.andExpect(status().isUnauthorized());
+        performToGetUnauthorized.andExpect(status().isForbidden());
 //       4. user made POST /register with username=name, password= pass adne system registered user with status OK(200)
         //given when
         ResultActions performRegister = mockMvc.perform(post("/register")
