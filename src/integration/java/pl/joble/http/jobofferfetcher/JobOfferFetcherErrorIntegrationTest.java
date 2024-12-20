@@ -6,6 +6,7 @@ import com.github.tomakehurst.wiremock.http.Fault;
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.web.server.ResponseStatusException;
 import pl.joble.domain.offer.JobOfferFetcher;
 
@@ -42,6 +43,7 @@ class JobOfferFetcherErrorIntegrationTest {
         assertThat(throwable.getMessage()).isEqualTo("500 INTERNAL_SERVER_ERROR");
     }
     @Test
+    @WithMockUser
     void should_return_response_500_when_fault_empty_response() {
         // given
         wireMockServer.stubFor(WireMock.get("/offers")
@@ -60,6 +62,7 @@ class JobOfferFetcherErrorIntegrationTest {
     }
 
     @Test
+    @WithMockUser
     void should_return_response_500_when_fault_malformed_response_chunk() {
         // given
         wireMockServer.stubFor(WireMock.get("/offers")
@@ -77,6 +80,7 @@ class JobOfferFetcherErrorIntegrationTest {
     }
 
     @Test
+    @WithMockUser
     void should_return_response_204_when_status_is_204_no_content() {
         // given
         wireMockServer.stubFor(WireMock.get("/offers")

@@ -3,6 +3,7 @@ package pl.joble.domain.loginandregister;
 import org.junit.jupiter.api.Test;
 import pl.joble.domain.loginandregister.dto.ClientDto;
 import pl.joble.domain.loginandregister.dto.ClientToRegisterDto;
+import pl.joble.domain.loginandregister.dto.RegistrationResultDto;
 
 
 import java.util.NoSuchElementException;
@@ -28,9 +29,9 @@ class LoginAndRegisterFacadeTest {
                 .location("London")
                 .build();
         //when
-        ClientDto registered1 = loginAndRegisterFacade.register(toSave1).orElseThrow();
+        RegistrationResultDto registrationResultDto = loginAndRegisterFacade.register(toSave1).orElseThrow();
         //then
-        assertThat(toSave1.username()).isEqualTo(registered1.username());
+        assertThat(toSave1.username()).isEqualTo(registrationResultDto.username());
 
     }
     @Test
@@ -58,11 +59,11 @@ class LoginAndRegisterFacadeTest {
                 .aboutMe("There is something about me :P")
                 .location("London")
                 .build();
-        ClientDto registered1 = loginAndRegisterFacade.register(toSave1).orElseThrow();
+        RegistrationResultDto registrationResultDto = loginAndRegisterFacade.register(toSave1).orElseThrow();
         //when
         ClientDto tomFinger = loginAndRegisterFacade.findByUsername("Tom Finger").orElseThrow();
         //then
-        assertThat(registered1).isEqualTo(tomFinger);
+        assertThat(registrationResultDto).isEqualTo(tomFinger);
     }
     @Test
     void should_throw_exception_if_user_with_such_username_not_exits(){

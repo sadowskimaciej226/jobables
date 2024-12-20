@@ -1,8 +1,8 @@
 package pl.joble.http.jobofferfetcher;
 
 import org.springframework.web.client.RestTemplate;
-import pl.joble.infrastructure.offer.http.JobOfferFetcherConfig;
-import pl.joble.infrastructure.offer.http.JobOfferFetcherRestTemplate;
+import pl.joble.infrastructure.http.JobOfferFetcherConfig;
+import pl.joble.infrastructure.http.JobOfferFetcherRestTemplate;
 
 class JobOfferFetcherIntegrationTestConfig extends JobOfferFetcherConfig {
     public static final String CONTENT_TYPE_HEADER_KEY = "Content-Type";

@@ -1,4 +1,4 @@
-package pl.joble.infrastructure.offer.http;
+package pl.joble.infrastructure.http;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;

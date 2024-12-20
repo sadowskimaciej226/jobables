@@ -1,4 +1,4 @@
-package pl.joble.infrastructure.offer.apivalidation;
+package pl.joble.infrastructure.apivalidation;
 
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;

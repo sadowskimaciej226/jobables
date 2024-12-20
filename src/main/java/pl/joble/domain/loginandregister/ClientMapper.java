@@ -9,6 +9,7 @@ class ClientMapper {
     public static ClientDto mapToDto(Client client){
         return ClientDto.builder()
                 .id(client.id())
+                .password(client.getPassword())
                 .username(client.username())
                 .age(client.age())
                 .aboutMe(client.aboutMe())

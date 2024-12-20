@@ -2,6 +2,7 @@ package pl.joble.apivalidationerror;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MvcResult;
@@ -26,6 +27,7 @@ public class ApiValidationFailedTest extends BaseIntegrationTest {
     }
 
     @Test
+    @WithMockUser
     public void should_return_400_bad_request_and_validation_message_when_request_is_empty() throws Exception {
         //given
         //when
