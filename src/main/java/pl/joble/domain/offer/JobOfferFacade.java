@@ -1,6 +1,7 @@
 package pl.joble.domain.offer;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import pl.joble.domain.offer.dto.JobOfferDto;
 import pl.joble.domain.offer.dto.ResponseJobOfferDto;
 
@@ -36,6 +37,7 @@ public class JobOfferFacade {
         return mapToDto(foundOffer);
 
     }
+    @Cacheable("jobOffers")
     public List<JobOfferDto> findAllOffer(){
         List<JobOffer> jobOffers = jobOfferRepository.findAll();
         return jobOffers.stream()
