@@ -131,7 +131,7 @@ public class HappyPathTestIntegration extends BaseIntegrationTest implements Sam
         assertThat(fetchedWithZeroOffers, is(empty()));
 
         ResultActions perform = mockMvc.perform(get("/offer")
-                .header("Authorization", "Bearer: " + token));
+                .header("Authorization", "Bearer " + token));
 
         MvcResult mvcResult = perform.andExpect(status().isOk()).andReturn();
         String jsonWithOffers = mvcResult.getResponse().getContentAsString();
@@ -141,7 +141,8 @@ public class HappyPathTestIntegration extends BaseIntegrationTest implements Sam
 
 
 //       7. user made GET/offer/id and system returned Not_found
-        ResultActions perform2 = mockMvc.perform(get("/offer" + "/notexistingid"));
+        ResultActions perform2 = mockMvc.perform(get("/offer" + "/notexistingid")
+                .header("Authorization", "Bearer " + token));
 
         perform2.andExpect(status().isNotFound())
                 .andExpect(content().json("""
@@ -172,7 +173,8 @@ public class HappyPathTestIntegration extends BaseIntegrationTest implements Sam
 //       10. User made GET /offers with headed "Authorization: Bearer "AAAA.BBB.CCC" and system returned OK with 2 offers id
         //given
         //when
-        ResultActions performToGetTwoOffers = mockMvc.perform(get("/offer"));
+        ResultActions performToGetTwoOffers = mockMvc.perform(get("/offer")
+                .header("Authorization", "Bearer " + token));
 
         MvcResult twoOffersResult = performToGetTwoOffers.andExpect(status().isOk()).andReturn();
         String jsonWithTwoOffers = twoOffersResult.getResponse().getContentAsString();
@@ -185,7 +187,8 @@ public class HappyPathTestIntegration extends BaseIntegrationTest implements Sam
         //given
         //when
         String idOfFirstAddedOffer = twoJobOfferDto.get(1).id();
-        ResultActions performToGetOneSpecificOffers = mockMvc.perform(get("/offer/" + idOfFirstAddedOffer));
+        ResultActions performToGetOneSpecificOffers = mockMvc.perform(get("/offer/" + idOfFirstAddedOffer)
+                .header("Authorization", "Bearer " + token));
         MvcResult resultWithSpecificOffer = performToGetOneSpecificOffers.andExpect(status().isOk()).andReturn();
         String jsonAsOneSpecificOffer = resultWithSpecificOffer.getResponse().getContentAsString();
         JobOfferDto specificOffer = objectMapper.readValue(jsonAsOneSpecificOffer, new TypeReference<>() {
@@ -211,7 +214,8 @@ public class HappyPathTestIntegration extends BaseIntegrationTest implements Sam
         assertThat(fetchedWithFourOffers, hasSize(2));
 
 //       15. User made GET /offers with header "Authorization: AAAA>BBB>CCC" and system returned OK with 4 offers id
-        ResultActions performToGetFourOffers = mockMvc.perform(get("/offer"));
+        ResultActions performToGetFourOffers = mockMvc.perform(get("/offer")
+                .header("Authorization", "Bearer " + token));
         MvcResult fourOffersResult = performToGetFourOffers.andExpect(status().isOk()).andReturn();
         String jsonWithFourOffers = fourOffersResult.getResponse().getContentAsString();
         List<JobOfferDto> fourJobOfferDto= objectMapper.readValue(jsonWithFourOffers, new TypeReference<>() {
@@ -223,6 +227,7 @@ public class HappyPathTestIntegration extends BaseIntegrationTest implements Sam
         //given
         //when
         ResultActions performOfferWithNotUniqueURl = mockMvc.perform(post("/offer")
+                .header("Authorization", "Bearer " + token)
                 .content("""
                                 {
                                       "title": "titlewith10chars",
