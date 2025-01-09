@@ -23,6 +23,7 @@ To add mongo db to the project I use docker desktop by writing docker-compose fi
 - Unit Test (Hamcrest, mockito)
 - Integration test (wireMock, testcontainers, awaitility)
 - Docker (dockerDesktop, docker-compose)
+- Swagger
 ## Introduction the application work
 ![image](https://github.com/user-attachments/assets/080bc3c5-b0f8-4a1b-9427-e92e8b268a17)
 ![image](https://github.com/user-attachments/assets/81518abe-2920-4ae9-9dff-185714878e01)
