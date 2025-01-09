@@ -11,7 +11,7 @@ To add mongo db to the project I use docker desktop by writing docker-compose fi
 - JWT Authentication
 - Spring scheduler
 - Validation
-- RestTemplate
+- RestTemplateS
 - Redis
 - Lombock
 - Log4j2
@@ -20,4 +20,12 @@ To add mongo db to the project I use docker desktop by writing docker-compose fi
 - Unit Test (Hamcrest, mockito)
 - Integration test (wireMock, testcontainers, awaitility)
 - Docker (dockerDesktop, docker-compose)
-## Introduction how to use it
+## Introduction the application work
+![image](https://github.com/user-attachments/assets/080bc3c5-b0f8-4a1b-9427-e92e8b268a17)
+![image](https://github.com/user-attachments/assets/81518abe-2920-4ae9-9dff-185714878e01)
+![image](https://github.com/user-attachments/assets/bac27c16-29d9-4ab1-862f-fd41c5157dad)
+![image](https://github.com/user-attachments/assets/b6112cfe-a967-46b8-bcef-e09c547e492e)
+
+
+
+
