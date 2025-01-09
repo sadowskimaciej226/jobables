@@ -5,6 +5,9 @@ After account creation you can sign in to the api using JWT. After that api allo
 and to show offer by id. You can add your own offer after siging in too.<br>
 In this project I use modular monolith which allows transition to microservice architecture as the app continues to evolve. <br>
 To add mongo db to the project I use docker desktop by writing docker-compose file.
+## Architecture
+![image](https://github.com/user-attachments/assets/b9fcfcb8-a519-4b66-bb67-4419c61cbf4d)
+
 ## Technologies 
 - Java 
 - Spring boot
